@@ -85,7 +85,6 @@ void PlayerStandingState::OnCollision(Entity *impactor, Entity::SideCollisions s
 	case Entity::Bottom: case Entity::BottomLeft: case Entity::BottomRight:
 	{
 		this->mPlayerData->player->AddPosition(0, -(data.RegionCollision.bottom - data.RegionCollision.top));
-
 		this->mPlayerData->player->SetVy(0);
 
 		return;

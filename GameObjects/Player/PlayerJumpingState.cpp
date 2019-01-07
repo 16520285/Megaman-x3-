@@ -22,7 +22,7 @@ PlayerJumpingState::~PlayerJumpingState()
 
 void PlayerJumpingState::Update(float dt)
 {
-	this->mPlayerData->player->AddVy(acceleratorY * 8);
+	this->mPlayerData->player->AddVy(acceleratorY * 5);
 
 
 	if (mPlayerData->player->GetVy() >= 0)

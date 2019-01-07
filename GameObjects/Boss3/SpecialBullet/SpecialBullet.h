@@ -35,7 +35,7 @@ public: SpecialBullet();
 
 		SpecialBulletState::StateName mCurrentState;
 
-		bool isLeft,isDestroyed,isDeleted,isFollowing;	int count, time,HP;
+		bool isLeft,isDestroyed,isDeleted,isFollowing,isBegin;	int count, time,HP;
 
 		void OnCollision(Entity *impactor, Entity::CollisionReturn data, Entity::SideCollisions side);
 		void GetPlayerPosition();

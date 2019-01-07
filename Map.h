@@ -52,7 +52,7 @@ public:
 
 	void Draw();
 
-	bool inCamera(int a,int b);
+	bool inCamera(int a, int b); int times;
 
 	//std::vector<Brick*> GetListBrick();
 
@@ -73,16 +73,16 @@ public:
 	std::vector<Enemy2*>             mListEnemy2;
 	std::vector<Enemy3*>             mListEnemy3;
 	std::vector<Brick2*>             mListBrick2;
-
+	std::vector<Brick*>             mListBrick;
+	std::vector<SpecialBullet*>             mListSpecialBullet;
 	Elevator *elevator;
 	std::vector<Door*>             mListDoor;
 	Ship *ship;
 	Plane *plane;
-	Brick *brick;
 	Boss1 *mBoss1;
 	Boss2 *mBoss2;
 	Boss3 *mBoss3;
-	SpecialBullet *specialBullet;
+	
 	//void saveQuadTree(QuadTree *quadtree);
 	~Map();
 

@@ -11,7 +11,7 @@ Boss3::Boss3(Player *Player) {
 	Boss3Attack = new Animation("Resources/Boss3/Boss3Attack.png", 5, 1, 5, 0.5f);
 	Boss3Preparing = new Animation("Resources/Boss3/Boss3Preparing.png", 5, 1, 5, 0.8f);
 	Boss3GenerateBee = new Animation("Resources/Boss3/Boss3GenerateBee.png", 5, 1, 5, 0.5f);
-	Boss3Die = new Animation("Resources/Enemy1/DieState.png", 7, 1, 7, 0.1f);
+	Boss3Die = new Animation("Resources/Boss3/Boss3Die.png", 1, 1, 1, 0.0f);
 	
 	Boss3Preparing->SetScale(D3DXVECTOR2(2, 2));
 	

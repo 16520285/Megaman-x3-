@@ -30,9 +30,9 @@ void DemoScene::LoadContent()
 	//map = new Map("Resources/marioworld1-1.tmx");
 	
 	map = new Map("Resources/map1.tmx",mPlayer);
-	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
+	mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
 	//mPlayer->SetPosition(17409.3,4080); //boss 3
-	mPlayer->SetPosition(5504,2294.67); //boss 1
+	//mPlayer->SetPosition(5504,2294.67); //boss 1
 	//mPlayer->SetPosition(12417.3,2254.67); //boss2
 	//mPlayer->SetPosition(12618.7, 1824);
 	camera = new Camera(GameGlobal::GetWidth(), GameGlobal::GetHeight());
@@ -188,7 +188,7 @@ void DemoScene::checkCollision()
 	}
 	
 	//Neu megaman dung ngoai mep thi luc nay cho megaman rot xuong duoi dat    
-	if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING && widthBottom !=0)
+	if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING )
 	{
 		
 		mPlayer->OnNoCollisionWithBottom();
@@ -575,13 +575,13 @@ void DemoScene::checkCollision()
 			}
 		}
 
-		if (map->specialBullet)
+		if (map->mListSpecialBullet[map->times])
 		{
 			Entity::CollisionReturn r3 = GameCollision::RecteAndRect(mPlayer->GetBound(),
-				map->specialBullet->GetBound());
+				map->mListSpecialBullet[map->times]->GetBound());
 			if (r3.IsCollided)
 			{
-				map->specialBullet->isFollowing = true;
+				map->mListSpecialBullet[map->times]->isFollowing = true;
 				//mPlayer->mListPlayerBullet.at(i)->OnCollision();
 			}
 		}
@@ -610,14 +610,14 @@ void DemoScene::checkCollision()
 			}
 
 			//BRICK
-			if (map->brick)
+			for (size_t i = 0; i < map->mListBrick.size(); i++)
 			{
 				Entity::CollisionReturn r3 = GameCollision::RecteAndRect(mPlayer->mListPlayerBullet[j]->GetBound(),
-					map->brick->GetBound());
+					map->mListBrick[i]->GetBound());
 				if (r3.IsCollided)
 				{
 					mPlayer->mListPlayerBullet[j]->OnCollision();
-					map->brick->HP -= mPlayer->mListPlayerBullet[j]->damage;
+					map->mListBrick[i]->HP -= mPlayer->mListPlayerBullet[j]->damage;
 				}
 			}
 		}

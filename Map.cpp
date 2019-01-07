@@ -200,8 +200,21 @@ void Map::LoadMap(char* filePath)
 	ship->SetPosition(12618.7, 1824);
 	plane = new Plane();
 	plane->SetPosition(12618.7, 1524);
-	brick = new Brick();
-	//BEE
+	
+	//Brick
+	for (int i = 0; i <= 3; i++)
+	{
+		Brick *brick = new Brick();
+		brick->SetPosition(12618.7, 1324);
+		mListBrick.push_back(brick);
+	}
+	for (int i = 0; i <= 10; i++)
+	{
+		SpecialBullet *specialBullet = new SpecialBullet();
+		specialBullet->SetPosition(19509.3,3080);
+		mListSpecialBullet.push_back(specialBullet);
+	}
+	times = 10;
 	
 
 }
@@ -355,10 +368,16 @@ void Map::Draw()
 	{
 		if (mListBrick2[i]) mListBrick2[i]->Draw(mListBrick2[i]->GetPosition(), RECT(), D3DXVECTOR2(), trans);
 	}
+	
 	if (ship) ship->Draw(ship->GetPosition(), RECT(), D3DXVECTOR2(), trans);
+	for (size_t i = 0; i < mListBrick.size(); i++)
+	{
+		if (mListBrick[i]) mListBrick[i]->Draw(mListBrick[i]->GetPosition(), RECT(), D3DXVECTOR2(), trans);
+	}
 	if (plane) plane->Draw(plane->GetPosition(), RECT(), D3DXVECTOR2(), trans);
-	if (brick) brick->Draw(brick->GetPosition(), RECT(), D3DXVECTOR2(), trans);
-	if (specialBullet) specialBullet->Draw(specialBullet->GetPosition(), RECT(), D3DXVECTOR2(), trans);
+	if (mListSpecialBullet[times])  mListSpecialBullet[times]->Draw(mListSpecialBullet[times]->GetPosition(), RECT(), D3DXVECTOR2(), trans);
+	
+	
 #pragma endregion
 }
 
@@ -478,20 +497,21 @@ void Map::Update(float dt)
 			{
 				plane->Update(dt);
 				if (plane->isDown) {
-					brick = new Brick();
-					brick->SetPosition(plane->GetPosition() + D3DXVECTOR3(0, brick->GetHeight(), 0));
+				
+					mListBrick[ship->HP]->SetPosition(plane->GetPosition() + D3DXVECTOR3(0, mListBrick[ship->HP]->GetHeight(), 0));
 				}
-				if (brick)
+				if (mListBrick[ship->HP])
 				{
-					brick->Update(dt);
-					if (brick->isDeleted) {
-						brick = NULL;
+					mListBrick[ship->HP]->Update(dt);
+					if (mListBrick[ship->HP]->isDeleted) {
+						mListBrick[ship->HP] = NULL;
+						mListBrick.erase(mListBrick.begin() + ship->HP);
 						ship->HP--;
 					}
 				}
 				if (ship->isFinished) {
 					plane = NULL;
-					brick = NULL;
+					mListBrick.clear();
 				}
 				
 			}
@@ -520,17 +540,24 @@ void Map::Update(float dt)
 				
 					speedBeeY += 20;
 					if (speedBeeY == 130) speedBeeY = 50;
-					mBoss3->mListBee[i]->Update(dt);
 					if (mBoss3->mListBee[i]->mCurrentReverse) mBoss3->mListBee[i]->SetVx(speedBeeX);
 					else mBoss3->mListBee[i]->SetVx(-speedBeeX);
 					mBoss3->mListBee[i]->SetVy(speedBeeY);
 
-					if (specialBullet)
-					if (specialBullet->isFollowing) {
-						mBoss3->mListBee[i]->SetVx(mPlayer->GetPosition().x - mBoss3->mListBee[i]->GetPosition().x);
-						mBoss3->mListBee[i]->SetVy(mPlayer->GetPosition().y - mBoss3->mListBee[i]->GetPosition().y);
+					if (mBoss3->mListBee[i]->GetPosition().x <= (19509.3 - 425) || mBoss3->mListBee[i]->GetPosition().x >= (19509.3 + 100))
+					{
+						mBoss3->mListBee[i]->SetVx(0);
+						mBoss3->mListBee[i]->SetVy(0);
 					}
-
+					if (mListSpecialBullet[times])
+						if (mListSpecialBullet[times]->isFollowing) {
+							GAMELOG("a:%d", times);
+							mBoss3->mListBee[i]->SetVx(mPlayer->GetPosition().x - mBoss3->mListBee[i]->GetPosition().x);
+							mBoss3->mListBee[i]->SetVy(mPlayer->GetPosition().y - mBoss3->mListBee[i]->GetPosition().y);
+						}
+					mBoss3->mListBee[i]->Update(dt);
+					
+					
 					if (mBoss3->mListBee[i]->isDeleted) {
 						mBoss3->mListBee[i] = NULL;
 						mBoss3->mListBee.erase(mBoss3->mListBee.begin() + i);
@@ -538,23 +565,27 @@ void Map::Update(float dt)
 			}
 
 			//SPECIAL BULLET
-			if (!specialBullet && mBoss3->mCurrentState==2 && mBoss3->HP<20)
+			if (mBoss3->mCurrentState==2 && mBoss3->HP<20)
 			{
-				specialBullet = new SpecialBullet();
-				specialBullet->SetPosition(mBoss3->GetPosition());
+				mListSpecialBullet[times]->SetPosition(mBoss3->GetPosition());
+				mListSpecialBullet[times]->isBegin = true;
 			}
-			if (specialBullet) {
+			if (mListSpecialBullet[times] && mListSpecialBullet[times]->isBegin) {
 				
-				specialBullet->SetVx(mPlayer->GetPosition().x-specialBullet->GetPosition().x);
-				specialBullet->SetVy(mPlayer->GetPosition().y - specialBullet->GetPosition().y);
+				mListSpecialBullet[times]->SetVx(mPlayer->GetPosition().x- mListSpecialBullet[times]->GetPosition().x);
+				mListSpecialBullet[times]->SetVy(mPlayer->GetPosition().y - mListSpecialBullet[times]->GetPosition().y);
 				
-				if (specialBullet->isFollowing) {
-					specialBullet->SetVx(0);
-					specialBullet->SetVy(0);
-					specialBullet->SetPosition(mPlayer->GetPosition());
+				if (mListSpecialBullet[times]->isFollowing) {
+					mListSpecialBullet[times]->SetVx(0);
+					mListSpecialBullet[times]->SetVy(0);
+					mListSpecialBullet[times]->SetPosition(mPlayer->GetPosition());
 				}
-				specialBullet->Update(dt);
-				if (specialBullet->isDeleted) specialBullet = NULL;
+				mListSpecialBullet[times]->Update(dt);
+				if (mListSpecialBullet[times]->isDeleted) {
+					mListSpecialBullet[times] = NULL;
+					mListSpecialBullet.erase(mListSpecialBullet.begin() + times);
+					times--;
+				}
 			}
 
 			

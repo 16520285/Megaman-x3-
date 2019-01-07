@@ -29,13 +29,13 @@ Bee::~Bee()
 }
 void Bee::Update(float dt)
 {
-
+/*
 	if (this->mBeeData->Bee->GetPosition().x <= (19509.3 - 425) || this->mBeeData->Bee->GetPosition().x >= (19509.3 + 100))
 	{
 		this->mBeeData->Bee->SetVx(0);
 		this->mBeeData->Bee->SetVy(0);
 	}
-
+	*/
 	
 	CurrentAnimation->Update(dt);
 

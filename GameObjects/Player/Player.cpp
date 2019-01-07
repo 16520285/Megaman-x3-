@@ -95,7 +95,7 @@ void Player::Update(float dt)
 		}
 	}
 
-	if (HP ==0) this->SetState(new PlayerDieState(this->mPlayerData));
+	//if (HP ==0) this->SetState(new PlayerDieState(this->mPlayerData));
 	
 }
 
@@ -334,7 +334,7 @@ void Player::OnFired(int _level)
 		PlayerBullet *tempbullet = new PlayerBullet(_level);
 		if (this->mCurrentReverse) tempbullet->SetReverse(true);
 		else tempbullet->SetReverse(false);
-		if (this->getState() == 12) tempbullet->SetReverse(!tempbullet->mCurrentReverse);
+		if (this->getState() == 11) tempbullet->SetReverse(!tempbullet->mCurrentReverse);
 		tempbullet->SetPosition(this->GetPosition());
 		mListPlayerBullet.push_back(tempbullet);
 	
