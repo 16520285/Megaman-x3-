@@ -172,6 +172,7 @@ void DemoScene::checkCollision()
 
 			//goi den ham xu ly collision cua Player va Entity
 			mPlayer->OnCollision(listCollision.at(i), r, sidePlayer);
+		
 			listCollision.at(i)->OnCollision(mPlayer, r, sideImpactor);
 
 			//kiem tra neu va cham voi phia duoi cua Player 
@@ -187,10 +188,9 @@ void DemoScene::checkCollision()
 		}
 	}
 	
-	//Neu megaman dung ngoai mep thi luc nay cho megaman rot xuong duoi dat    
-	if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING )
+	if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING && widthBottom != 0)
 	{
-		
+
 		mPlayer->OnNoCollisionWithBottom();
 		//LOG(widthBottom);
 	}
@@ -200,6 +200,8 @@ void DemoScene::checkCollision()
 			mPlayer->OnNoCollisionWithBottom();
 			//LOG(widthBottom);
 		}
+	//Neu megaman dung ngoai mep thi luc nay cho megaman rot xuong duoi dat    
+	
 
 #pragma region XU LY VA CHAM CUA ENEMY1
 	//xu ly va cham voi enemy, duyet listenemy
