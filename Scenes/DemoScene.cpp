@@ -26,8 +26,8 @@ void DemoScene::LoadContent()
 	
     mPlayer = new Player();
 	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()/2);
-	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
-	mPlayer->SetPosition(17409.3,4080); //boss 3
+mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
+	//mPlayer->SetPosition(17409.3,4080); //boss 3
 	//mPlayer->SetPosition(5504,2294.67); //boss 1
 	//mPlayer->SetPosition(12417.3,2254.67); //boss2
 	//mPlayer->SetPosition(12618.7, 1824);

@@ -3,7 +3,7 @@
 HINSTANCE GameGlobal::mHInstance = NULL;
 HWND GameGlobal::mHwnd = NULL;
 LPD3DXSPRITE GameGlobal::mSpriteHandler = NULL;
-int GameGlobal::mWidth = 900; //600
+int GameGlobal::mWidth = 1100; //600
 int GameGlobal::mHeight = 800;
 LPDIRECT3DDEVICE9 GameGlobal::mDevice = nullptr;
 bool GameGlobal::isGameRunning = true;
