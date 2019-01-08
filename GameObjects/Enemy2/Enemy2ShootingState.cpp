@@ -10,7 +10,7 @@ Enemy2ShootingState::Enemy2ShootingState(EnemyData2 *playerData)
 	this->mEnemyData2->Enemy2->SetVx(0);
 	this->mEnemyData2->Enemy2->SetVy(0);
 	count = 0;
-	time = 200;
+	time = 100;
 	this->mEnemyData2->Enemy2->onFired();
 	noPressed = false;
 }

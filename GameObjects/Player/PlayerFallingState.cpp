@@ -96,7 +96,7 @@ void PlayerFallingState::OnCollision(Entity *impactor, Entity::SideCollisions si
 			
 			//GAMELOG("posy+1: %d", data.RegionCollision.right);
 			//this->mPlayerData->player->AddPosition(0, -(data.RegionCollision.bottom - data.RegionCollision.top));
-			
+			this->mPlayerData->player->SetVy(0);
 			this->mPlayerData->player->AddPosition(0,10 );
 		
 			

@@ -40,7 +40,6 @@ public:
 
 protected:
 	void checkCollision();
-	void CheckCameraAndWorldMap();
 	void DrawQuadtree(QuadTree *quadtree);
 	void DrawCollidable();
     Player *mPlayer;
@@ -53,7 +52,7 @@ protected:
 	std::vector<Entity*> mCollidableEnemy;
 
 	GameDebugDraw *mDebugDraw;
-
+	Sprite *gameover;
 	fstream outfile;
 	//void createQuadTree();
 };

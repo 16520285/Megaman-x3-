@@ -13,7 +13,7 @@ Boss3GenerateBeeState::Boss3GenerateBeeState(Boss3Data *Boss3Data)
 	this->mBoss3Data->Boss3->SetVy(0);
 	this->mBoss3Data->generateBee++;
 	count = 0;
-	clock = 200;
+	clock = 50;
 	
 	this->mBoss3Data->attackTime2 +=3;
 	this->mBoss3Data->Boss3->onFired();

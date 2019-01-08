@@ -21,7 +21,7 @@ Enemy3::Enemy3() {
 	//this->SetState(new Enemy3StandingState(this->mEnemyData3));
 	//this->mEnemyData->PlayerShot = new PlayerShot(this);
 	
-	HP = 5;
+	HP = 4;
 }
 Enemy3::~Enemy3()
 {	

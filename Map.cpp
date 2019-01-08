@@ -36,7 +36,7 @@ void Map::LoadMap(char* filePath)
 	r.right = this->GetWidth();
 	r.bottom = this->GetHeight();
 
-	mQuadTree = new QuadTree(1,1, r); //khoi tao quadtree
+	//mQuadTree = new QuadTree(1,1, r); //khoi tao quadtree
 
 	for (size_t i = 0; i < mMap->GetNumTilesets(); i++)
 	{
@@ -70,7 +70,7 @@ void Map::LoadMap(char* filePath)
 				entity->SetHeight(object->GetHeight());
 				entity->Tag = Entity::EntityTypes::Static;
 				entity->id = object->GetId();
-				mQuadTree->insertEntity(entity);
+				//mQuadTree->insertEntity(entity);
 				mListEntity[entity->id] = entity;
 				mList.push_back(entity);
 			}
@@ -187,7 +187,7 @@ void Map::LoadMap(char* filePath)
 
 	
 	//GAMELOG("ene: %d", mListEnemy1);
-	//createQuadTree();
+	
 
 	//ELEVATOR
 	elevator = new Elevator();
@@ -215,7 +215,7 @@ void Map::LoadMap(char* filePath)
 		mListSpecialBullet.push_back(specialBullet);
 	}
 	times = 10;
-	
+	createQuadTree();
 
 }
 

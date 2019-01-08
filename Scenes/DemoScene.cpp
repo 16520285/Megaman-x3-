@@ -11,6 +11,7 @@ DemoScene::DemoScene()
 
 void DemoScene::LoadContent()
 {
+	//KHOI TAO AM THANH
 	Sound::getInstance()->loadSound("Resources/Sound/Explosion.wav", "Explosion");
 	Sound::getInstance()->loadSound("Resources/Sound/BossExplosion.wav", "BossExplosion");
 	Sound::getInstance()->loadSound("Resources/Sound/Background.wav", "Background");
@@ -18,50 +19,47 @@ void DemoScene::LoadContent()
 	Sound::getInstance()->loadSound("Resources/Sound/PlayerDash.wav", "PlayerDashing");
 	Sound::getInstance()->loadSound("Resources/Sound/PlayerShoot.wav", "PlayerShooting");
 	Sound::getInstance()->play("Background", true, 0);
+
 	mDebugDraw = new GameDebugDraw();
 	//set mau backcolor cho scene o day la mau xanh
     mBackColor = 0x54acd2; 
-	/*map = new Animation("Resources/background.png", 1, 1, 1, 0.0f);
-	map->SetScale(D3DXVECTOR2(6, 6));*/
+	
     mPlayer = new Player();
-	
-    
 	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()/2);
-	//map = new Map("Resources/marioworld1-1.tmx");
-	
-	map = new Map("Resources/map1.tmx",mPlayer);
-	mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
-	//mPlayer->SetPosition(17409.3,4080); //boss 3
+	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
+	mPlayer->SetPosition(17409.3,4080); //boss 3
 	//mPlayer->SetPosition(5504,2294.67); //boss 1
 	//mPlayer->SetPosition(12417.3,2254.67); //boss2
 	//mPlayer->SetPosition(12618.7, 1824);
+
+	map = new Map("Resources/map1.tmx", mPlayer);
 	camera = new Camera(GameGlobal::GetWidth(), GameGlobal::GetHeight());
 	camera->SetPosition(GameGlobal::GetWidth()/2, GameGlobal::GetHeight()/2);
-
 	map->SetCamera(camera);
+
 	hpTaskBar = new HpTaskBar();
 	bossHP1 = new BossHP();
 	bossHP2 = new BossHP();
+	gameover = new Sprite("Resources/GameOver.png");
 	
 }
 
 void DemoScene::Update(float dt)
 {
 	checkCollision();
+
 	map->Update(dt);
-	
-    mPlayer->HandleKeyboard(keys);
-    mPlayer->Update(dt);
-	
-	//mEnemy1->Update(dt);
+
+	mPlayer->HandleKeyboard(keys);
+	mPlayer->Update(dt);
+
 	camera->SetPosition(mPlayer->GetPosition());
-	//saveQuadTree(map->GetQuadTree());
-	
-	//CheckCameraAndWorldMap();
+
 	for (size_t i = 0; i < mPlayer->mListPlayerBullet.size(); i++)
 	{
 		mPlayer->mListPlayerBullet.at(i)->Update(dt);
 	}
+
 	hpTaskBar->Update(dt,mPlayer->HP);
 	if (mPlayer->GetPosition().x > 13900 && map->mBoss2) {
 		bossHP1->isDraw = true;
@@ -73,7 +71,7 @@ void DemoScene::Update(float dt)
 		bossHP2->Update(dt, map->mBoss3->HP);
 		
 	}
-	
+	//saveQuadTree(map->GetQuadTree());
 }	
 
 void DemoScene::Draw()
@@ -82,10 +80,11 @@ void DemoScene::Draw()
 	map->Draw();
     mPlayer->Draw();
 	hpTaskBar->Draw();
+	if (map->mBoss3->isDestroyed)
+		gameover->Draw(D3DXVECTOR3(GameGlobal::GetWidth()/2,GameGlobal::GetHeight()/2,0));
 	if (map->mBoss2 && bossHP1->isDraw) bossHP1->Draw();
 	if (map->mBoss3 && bossHP2->isDraw) bossHP2->Draw();
-	//mEnemy1->Draw(mEnemy1->GetPosition(), RECT(), D3DXVECTOR2(), trans);
-	
+		
 	//DrawQuadtree(map->GetQuadTree());
 	
 	//DrawCollidable();
@@ -108,44 +107,11 @@ void DemoScene::OnMouseDown(float x, float y)
 {
 }
 
-void DemoScene::CheckCameraAndWorldMap()
-{
-	camera->SetPosition(mPlayer->GetPosition());
-
-	if (camera->GetBound().left < 0)
-	{
-		//vi position cua camera ma chinh giua camera
-		//luc nay o vi tri goc ben trai cua the gioi thuc
-		camera->SetPosition(camera->GetWidth() / 2, camera->GetPosition().y);
-	}
-
-	if (camera->GetBound().right > map->GetWidth())
-	{
-		//luc nay cham goc ben phai cua the gioi thuc
-		camera->SetPosition(map->GetWidth() - camera->GetWidth() / 2,
-			camera->GetPosition().y);
-	}
-
-	if (camera->GetBound().top < 0)
-	{
-		//luc nay cham goc tren the gioi thuc
-		camera->SetPosition(camera->GetPosition().x, camera->GetHeight() / 2);
-	}
-
-	if (camera->GetBound().bottom > map->GetHeight())
-	{
-		//luc nay cham day cua the gioi thuc
-		camera->SetPosition(camera->GetPosition().x,
-			map->GetHeight() - camera->GetHeight() / 2);
-	}
-}
 
 void DemoScene::checkCollision()
 {
+#pragma region PLAYER
 	mCollidable.clear();
-
-	/*su dung de kiem tra xem khi nao mario khong dung tren 1 object hoac
-	dung qua sat mep trai hoac phai cua object do thi se chuyen state la falling*/
 	int widthBottom = 0;
 
 	vector<Entity*> listCollision;
@@ -179,29 +145,24 @@ void DemoScene::checkCollision()
 			if (sidePlayer == Entity::Bottom || sidePlayer == Entity::BottomLeft
 				|| sidePlayer == Entity::BottomRight)
 			{
-				//kiem cha do dai ma mario tiep xuc phia duoi day
+				//kiem cha do dai ma Player tiep xuc phia duoi day
 				int bot = r.RegionCollision.right - r.RegionCollision.left;
 
 				if (bot > widthBottom)
 					widthBottom = bot;
 			}
+			
+			
 		}
 	}
-	
-	if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING && widthBottom != 0)
+	//Neu player dung ngoai mep thi luc nay cho megaman rot xuong duoi dat    
+	if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING && widthBottom!=0)
 	{
 
 		mPlayer->OnNoCollisionWithBottom();
-		//LOG(widthBottom);
 	}
-	if (mPlayer->mCurrentState == PlayerState::Surfing)
-		if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING)
-		{
-			mPlayer->OnNoCollisionWithBottom();
-			//LOG(widthBottom);
-		}
-	//Neu megaman dung ngoai mep thi luc nay cho megaman rot xuong duoi dat    
-	
+
+#pragma endregion
 
 #pragma region XU LY VA CHAM CUA ENEMY1
 	//xu ly va cham voi enemy, duyet listenemy
@@ -456,8 +417,7 @@ void DemoScene::checkCollision()
 		map->elevator->GetBound());
 	if (r.IsCollided)
 	{
-		map->elevator->SetVy(-50);
-		//mPlayer->SetVy(-50);
+		map->elevator->SetVy(-80);
 		Entity::SideCollisions sidePlayer = GameCollision::getSideCollision(mPlayer, r);
 		mPlayer->OnCollision(map->elevator, r, sidePlayer);
 		
@@ -627,9 +587,8 @@ void DemoScene::checkCollision()
 	}
 #pragma endregion
 
-
-
 }
+
 void DemoScene::DrawQuadtree(QuadTree *quadtree)
 {
 	if (quadtree->GetNodes())
@@ -650,6 +609,7 @@ void DemoScene::DrawQuadtree(QuadTree *quadtree)
 		}
 	}
 }
+
 void DemoScene::DrawCollidable()
 {
 	for (auto child : mCollidable)
@@ -682,26 +642,10 @@ void DemoScene::saveQuadTree(QuadTree *quadtree)
 		}
 	}
 	if (quadtree->mId == 14444) { outfile.close();  }
-	
+	//outfile.close();
 	
 }
-/*void DemoScene::createQuadTree()
-{
-	outfile.open("quadtree.txt");
-	int cId,cLevel; RECT cBound;
-	while (!outfile.eof())
-	{
-		//GAMELOG("quad1: %d", temp); 
-		outfile >> cId;
-		outfile >> cLevel;
-		outfile >> cBound.left;
-		outfile >> cBound.top;
-		outfile >> cBound.bottom;
-		outfile >> cBound.right;
-		
 
-		
-	}
 	
-}*/
+
 

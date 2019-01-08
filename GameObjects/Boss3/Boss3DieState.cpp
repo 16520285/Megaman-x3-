@@ -10,6 +10,7 @@ Boss3DieState::Boss3DieState(Boss3Data *playerData)
 {
     this->mBoss3Data = playerData;
     this->mBoss3Data->Boss3->SetVx(0);
+	this->mBoss3Data->Boss3->SetVy(0);
 	this->mBoss3Data->Boss3->isDestroyed = true;
 	dem = 0;
 	Sound::getInstance()->play("BossExplosion", false, 1);
@@ -22,11 +23,6 @@ Boss3DieState::~Boss3DieState()
 
 void Boss3DieState::Update(float dt)
 {
-	
-	dem++;
-	if (dem == 10)
-		this->mBoss3Data->Boss3->isDeleted = true;
-
 	
 }
 

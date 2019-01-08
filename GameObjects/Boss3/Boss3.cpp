@@ -71,7 +71,7 @@ void Boss3::Update(float dt)
 	else this->onRight = true;
 
 
-	if (HP < 0) this->SetState(new Boss3DieState(this->mBoss3Data));
+	if (HP < 0 && mCurrentState!=5) this->SetState(new Boss3DieState(this->mBoss3Data));
 
 
 }

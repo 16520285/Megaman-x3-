@@ -19,7 +19,7 @@ PlayerBullet::PlayerBullet(int level) {
 	{
 		BulletMoving = new Animation("Resources/Bullets/PlayerBulletCharged2Moving.png", 1, 1, 1, 0.2f);
 		BulletDie = new Animation("Resources/Bullets/PlayerBulletCharged2Die.png", 4, 1, 4, 0.05f);
-		damage = 3;
+		damage = 5;
 	}
 	//this->playerBulletData = new EnemyData3();
 	//this->playerBulletData->PlayerBullet = this;
