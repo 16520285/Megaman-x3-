@@ -34,7 +34,7 @@ void PlayerWallState::Update(float dt)
 
 void PlayerWallState::HandleKeyboard(std::map<int, bool> keys)
 {
-    if (keys[VK_RIGHT] && !keys[VK_SPACE] && !(this->mPlayerData->player->mCurrentReverse) && !keys[0x58])
+    if (keys[VK_RIGHT] && !keys[0x58] && !(this->mPlayerData->player->mCurrentReverse) && !keys[0x43])
     {
         mPlayerData->player->SetReverse(false);
 
@@ -43,7 +43,7 @@ void PlayerWallState::HandleKeyboard(std::map<int, bool> keys)
 
         noPressed = false;
     }
-    else if (keys[VK_LEFT] && !keys[VK_SPACE] && (this->mPlayerData->player->mCurrentReverse) && !keys[0x58])
+    else if (keys[VK_LEFT] && !keys[0x58] && (this->mPlayerData->player->mCurrentReverse) && !keys[0x43])
     {
         mPlayerData->player->SetReverse(true);
 
@@ -52,16 +52,16 @@ void PlayerWallState::HandleKeyboard(std::map<int, bool> keys)
 
         noPressed = false;
     }
-	else if (keys[VK_SPACE] && (keys[VK_RIGHT] || keys[VK_LEFT]))
+	else if (keys[0x58] && (keys[VK_RIGHT] || keys[VK_LEFT]))
 	{
 		
 		this->mPlayerData->player->SetState(new PlayerJumpingState(this->mPlayerData));
 	}
-	else if (keys[0x58] && keys[VK_RIGHT] && !keys[VK_SPACE] && !(this->mPlayerData->player->mCurrentReverse))
+	else if (keys[0x43] && keys[VK_RIGHT] && !keys[0x58] && !(this->mPlayerData->player->mCurrentReverse))
 	{
 		this->mPlayerData->player->SetState(new PlayerWallShotState(this->mPlayerData));
 	}
-	else if (keys[0x58] && keys[VK_LEFT] && !keys[VK_SPACE] && (this->mPlayerData->player->mCurrentReverse))
+	else if (keys[0x43] && keys[VK_LEFT] && !keys[0x58] && (this->mPlayerData->player->mCurrentReverse))
 	{
 		this->mPlayerData->player->SetState(new PlayerWallShotState(this->mPlayerData));
 	}

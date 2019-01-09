@@ -111,7 +111,7 @@ void Player::HandleKeyboard(std::map<int, bool> keys)
 
 void Player::OnKeyPressed(int key)
 {
-	if (key == 0x58)
+	if (key == 0x43)
 	{
 		level = 1;
 		if (count > 16) level = 2;
@@ -120,7 +120,7 @@ void Player::OnKeyPressed(int key)
 		
 		//GAMELOG("count: %d",charging);
 	}
-    if (key == VK_SPACE)
+    if (key == 0x58)
     {
         if (allowJump)
         {
@@ -133,7 +133,7 @@ void Player::OnKeyPressed(int key)
         }
 		Sound::getInstance()->play("PlayerJumping", false, 1);
     }
-	if (key == 0x58 && mCurrentState == PlayerState::Running)
+	if (key == 0x43 && mCurrentState == PlayerState::Running)
 	{
 		charging = true;
 		if (allowShot)
@@ -148,7 +148,7 @@ void Player::OnKeyPressed(int key)
 
 		}
 	}
-	if (key == 0x58 && mCurrentState == PlayerState::Jumping)
+	if (key == 0x43 && mCurrentState == PlayerState::Jumping)
 	{
 		charging = true;
 		if (allowShot)
@@ -165,9 +165,9 @@ void Player::OnKeyPressed(int key)
 
 void Player::OnKeyUp(int key)
 {
-    if (key == VK_SPACE) allowJump = true;
+    if (key == 0x58) allowJump = true;
 
-	if (key == 0x58)
+	if (key == 0x43)
 	{
 		Sound::getInstance()->play("PlayerShooting", false, 1);
 		allowShot = true;

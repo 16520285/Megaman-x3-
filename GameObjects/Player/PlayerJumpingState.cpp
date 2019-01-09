@@ -32,31 +32,7 @@ void PlayerJumpingState::Update(float dt)
 		return;
 	}
 
-	/* if (noPressed)
-	 {
-		 if (mPlayerData->player->getMoveDirection() == Player::MoveToLeft)
-		 {
-			 //player dang di chuyen sang ben trai
-			 if (mPlayerData->player->GetVx() < 0)
-			 {
-				 this->mPlayerData->player->AddVx(acceleratorX*40);
-
-				 if (mPlayerData->player->GetVx() > 0)
-					 this->mPlayerData->player->SetVx(0);
-			 }
-		 }
-		 else if (mPlayerData->player->getMoveDirection() == Player::MoveToRight)
-		 {
-			 //player dang di chuyen sang phai
-			 if (mPlayerData->player->GetVx() > 0)
-			 {
-				 this->mPlayerData->player->AddVx(-acceleratorX*40);
-
-				 if (mPlayerData->player->GetVx() < 0)
-					 this->mPlayerData->player->SetVx(0);
-			 }
-		 }
-	 }*/
+	
 
 }
 

@@ -10,7 +10,7 @@ PlayerSurfingState::PlayerSurfingState(PlayerData *playerData)
 {
 	this->mPlayerData = playerData;
 
-	acceleratorX = 10.0f;
+	acceleratorX = 8.0f;
 }
 
 
@@ -22,17 +22,12 @@ void PlayerSurfingState::Update(float dt)
 {
 	this->mPlayerData->player->AddVx(acceleratorX);
 
-	/*if (mPlayerData->player->GetVx() >= 0)
-	{
-		mPlayerData->player->SetState(new PlayerStandingState(this->mPlayerData));
-
-		return;
-	}*/
+	
 }
 
 void PlayerSurfingState::HandleKeyboard(std::map<int, bool> keys)
 {
-	if (keys[0x5A] && !keys[0x58])
+	if (keys[0x5A] && !keys[0x43])
 	{
 		//mPlayerData->player->SetReverse(false);
 		if (this->mPlayerData->player->mCurrentReverse) mPlayerData->player->SetVx(-acceleratorX * 80);
@@ -40,7 +35,7 @@ void PlayerSurfingState::HandleKeyboard(std::map<int, bool> keys)
 		Sound::getInstance()->play("PlayerDashing", false, 1);
 	}
 	else
-	if (keys[0x58] && keys[0x5A])
+	if (keys[0x43] && keys[0x5A])
 	{
 		this->mPlayerData->player->SetState(new PlayerSurfingShotState(this->mPlayerData));
 	}

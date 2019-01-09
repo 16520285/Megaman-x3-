@@ -21,13 +21,13 @@ void PlayerRunningShotState::Update(float dt)
 
 void PlayerRunningShotState::HandleKeyboard(std::map<int, bool> keys)
 {
-	if (keys[VK_RIGHT] && keys[0x58] )
+	if (keys[VK_RIGHT] && keys[0x43] )
 		
 	{
 		mPlayerData->player->SetReverse(false);
 		this->mPlayerData->player->SetVx(acceleratorX * 70);
 	}
-	else if (keys[VK_LEFT] && keys[0x58] )
+	else if (keys[VK_LEFT] && keys[0x43] )
 			
 	{
 		mPlayerData->player->SetReverse(true);

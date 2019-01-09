@@ -21,24 +21,19 @@ void PlayerSurfingShotState::Update(float dt)
 {
 	this->mPlayerData->player->AddVx(acceleratorX);
 
-	/*if (mPlayerData->player->GetVx() >= 0)
-	{
-		mPlayerData->player->SetState(new PlayerStandingState(this->mPlayerData));
-
-		return;
-	}*/
+	
 }
 
 void PlayerSurfingShotState::HandleKeyboard(std::map<int, bool> keys)
 {
-	if (keys[0x5A] && keys[0x58])
+	if (keys[0x5A] && keys[0x43])
 	{
 		//mPlayerData->player->SetReverse(false);
 		if (this->mPlayerData->player->mCurrentReverse) mPlayerData->player->SetVx(-acceleratorX * 80);
 		else  mPlayerData->player->SetVx(acceleratorX * 80);
 	}
 	else
-	if (!keys[0x58] && keys[0x5A])
+	if (!keys[0x43] && keys[0x5A])
 	{
 		this->mPlayerData->player->SetState(new PlayerSurfingState(this->mPlayerData));
 		return;

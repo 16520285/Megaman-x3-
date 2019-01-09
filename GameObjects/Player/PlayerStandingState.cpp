@@ -33,12 +33,7 @@ void PlayerStandingState::HandleKeyboard(std::map<int, bool> keys)
 	{
 		this->mPlayerData->player->SetState(new PlayerSurfingState(this->mPlayerData));
 	}
-	/*if (keys[VK_UP] || keys[VK_DOWN])
-	{
-		this->mPlayerData->player->SetState(new PlayerClimbingState(this->mPlayerData));
-	}*/
-	
-	if (keys[0x58])
+	if (keys[0x43])
 	{
 		this->mPlayerData->player->SetState(new PlayerStandingShotState(this->mPlayerData));
 	}

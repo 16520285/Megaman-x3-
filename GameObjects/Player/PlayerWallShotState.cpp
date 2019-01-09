@@ -34,7 +34,7 @@ void PlayerWallShotState::Update(float dt)
 
 void PlayerWallShotState::HandleKeyboard(std::map<int, bool> keys)
 {
-    if (keys[VK_RIGHT] && !keys[VK_SPACE] && !(this->mPlayerData->player->mCurrentReverse))
+    if (keys[VK_RIGHT] && !keys[0x58] && !(this->mPlayerData->player->mCurrentReverse))
     {
         mPlayerData->player->SetReverse(false);
 
@@ -44,7 +44,7 @@ void PlayerWallShotState::HandleKeyboard(std::map<int, bool> keys)
         noPressed = false;
 	
     }
-    else if (keys[VK_LEFT] && !keys[VK_SPACE] && (this->mPlayerData->player->mCurrentReverse))
+    else if (keys[VK_LEFT] && !keys[0x58] && (this->mPlayerData->player->mCurrentReverse))
     {
         mPlayerData->player->SetReverse(true);
 
@@ -54,9 +54,8 @@ void PlayerWallShotState::HandleKeyboard(std::map<int, bool> keys)
         noPressed = false;
 		
     }
-	else if (keys[VK_SPACE] && (keys[VK_RIGHT] || keys[VK_LEFT]))
+	else if (keys[0x58] && (keys[VK_RIGHT] || keys[VK_LEFT]))
 	{
-		GAMELOG("jump: %d", mPlayerData->player->allowJump);
 		this->mPlayerData->player->SetState(new PlayerJumpingState(this->mPlayerData));
 		return;
 	}
@@ -68,7 +67,7 @@ void PlayerWallShotState::HandleKeyboard(std::map<int, bool> keys)
     }
 
 
-	if (keys[0x58]);
+	if (keys[0x43]);
 	else {
 		this->mPlayerData->player->SetState(new PlayerWallState(this->mPlayerData));
 		return;

@@ -34,36 +34,12 @@ void PlayerJumpingShotState::Update(float dt)
 		return;
 	}
 
-	/*if (noPressed)
-	{
-		if (mPlayerData->player->getMoveDirection() == Player::MoveToLeft)
-		{
-			//player dang di chuyen sang ben trai
-			if (mPlayerData->player->GetVx() < 0)
-			{
-				this->mPlayerData->player->AddVx(acceleratorX);
-
-				if (mPlayerData->player->GetVx() > 0)
-					this->mPlayerData->player->SetVx(0);
-			}
-		}
-		else if (mPlayerData->player->getMoveDirection() == Player::MoveToRight)
-		{
-			//player dang di chuyen sang phai
-			if (mPlayerData->player->GetVx() > 0)
-			{
-				this->mPlayerData->player->AddVx(-acceleratorX);
-
-				if (mPlayerData->player->GetVx() < 0)
-					this->mPlayerData->player->SetVx(0);
-			}
-		}
-	}*/
+	
 }
 
 void PlayerJumpingShotState::HandleKeyboard(std::map<int, bool> keys)
 {
-	if (keys[VK_RIGHT] && keys[0x58])
+	if (keys[VK_RIGHT] && keys[0x43])
 	{
 		mPlayerData->player->SetReverse(false);
 
@@ -72,7 +48,7 @@ void PlayerJumpingShotState::HandleKeyboard(std::map<int, bool> keys)
 
 		noPressed = false;
 	}
-	else if (keys[VK_LEFT] && keys[0x58])
+	else if (keys[VK_LEFT] && keys[0x43])
 	{
 		mPlayerData->player->SetReverse(true);
 

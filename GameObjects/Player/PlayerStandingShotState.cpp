@@ -36,7 +36,7 @@ void PlayerStandingShotState::HandleKeyboard(std::map<int, bool> keys)
 		return;
 	}
 	
-	if (keys[0x58]);
+	if (keys[0x43]);
 	else {
 		this->mPlayerData->player->SetState(new PlayerStandingState(this->mPlayerData));
 		return;
