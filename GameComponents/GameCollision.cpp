@@ -25,7 +25,7 @@ Entity::CollisionReturn GameCollision::RecteAndRect(RECT rect1, RECT rect2)
 
     //chon max Left
     result.RegionCollision.left = rect1.left > rect2.left ? rect1.left : rect2.left;
-    //chon max right
+    //chon min right
     result.RegionCollision.right = rect1.right < rect2.right ? rect1.right : rect2.right;
     //chon min bottom
     result.RegionCollision.bottom = rect1.bottom < rect2.bottom ? rect1.bottom : rect2.bottom;
@@ -43,27 +43,7 @@ bool GameCollision::PointAndRectangle(float x, float y, RECT rect)
     return true;
 }
 
-/*bool GameCollision::RectangleAndCircle(RECT rect, int circlex, int circley, int circleRadius)
-{
-    int px = circlex;
-    int py = circley;
 
-    if (px < rect.left)
-        px = rect.left;
-    else if (px > rect.right)
-        px = rect.right;
-
-    if (py > rect.bottom)
-        py = rect.bottom;
-    else if (py < rect.top)
-        py = rect.top;
-
-    int dx = px - circlex;
-    int dy = py - circley;
-
-    return (dx * dx + dy * dy) <= circleRadius * circleRadius;
-}
-*/
 bool GameCollision::isCollide(RECT rect1, RECT rect2)
 {
     if (rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.top)
@@ -81,7 +61,7 @@ Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity::Colli
     float xCenter = data.RegionCollision.left + (data.RegionCollision.right - data.RegionCollision.left) / 2.0f;
     float yCenter = data.RegionCollision.top + (data.RegionCollision.bottom - data.RegionCollision.top) / 2.0f;
 
-    D3DXVECTOR2 cCenter = D3DXVECTOR2(xCenter, yCenter);
+    D3DXVECTOR2 cCenter = D3DXVECTOR2(xCenter, yCenter); //Diem trung tam cua vung va cham
     D3DXVECTOR2 eCenter = e1->GetPosition();
 
     //lay vector noi tam Entity va CollisionRect
@@ -91,8 +71,8 @@ Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity::Colli
     D3DXVec2Normalize(&vec, &vec);
 
     /*
-    - neu vector chuan hoa co y > 0 =>nam phia ben tren Entity
-    - neu vector chuan hoa co y < 0 =>nam phia ben duoi Entity
+    - neu vector chuan hoa co y > 0 =>nam phia ben duoi Entity
+    - neu vector chuan hoa co y < 0 =>nam phia ben tren Entity
     - neu vector chuan hoa co x > 0 => nam phia ben phai Entity
     - neu vector chuan hoa co x < 0 => nam phia ben trai Entity
     */

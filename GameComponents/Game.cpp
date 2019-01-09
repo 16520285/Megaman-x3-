@@ -70,29 +70,7 @@ void Game::InitLoop()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		//Poll_Keyboard();
-		if (Key_Down(DIK_F))
-		{
-
-			//if (!camera->IsFollowing()) camera->Follow(player);
-			//player->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight() / 2);
-
-
-		}
-		if (Key_Down(DIK_U))
-		{
-		//	if (camera->IsFollowing()) camera->Unfollow();
-		}
-		/*D3DXVECTOR3 movement = D3DXVECTOR3(0, 0, 0);
-		if (Key_Down(DIK_UP)) movement += D3DXVECTOR3(0, -2, 0);
-		if (Key_Down(DIK_DOWN)) movement += D3DXVECTOR3(0, 2, 0);
-		if (Key_Down(DIK_LEFT)) movement += D3DXVECTOR3(-2, 0, 0);
-		if (Key_Down(DIK_RIGHT)) movement += D3DXVECTOR3(2, 0, 0);
-		if (camera->IsFollowing())
-		{
-			camera->Update(movement);
-		}
-		else player->Update(movement);*/
+		
 		delta += GameTime::GetInstance()->GetCouter();
 
 		if (delta >= tickPerFrame)

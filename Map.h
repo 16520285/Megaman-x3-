@@ -57,12 +57,9 @@ public:
 	//std::vector<Brick*> GetListBrick();
 
 	QuadTree* GetQuadTree();
-
 	std::vector<Entity*> mList;
-	
-	
-	
 	void createQuadTree();
+
 	std::map<int, Entity*>          mListEntity;
 	std::map<int, QuadTree*>          mapQuadtree;
 	
@@ -83,7 +80,7 @@ public:
 	Boss2 *mBoss2;
 	Boss3 *mBoss3;
 	
-	//void saveQuadTree(QuadTree *quadtree);
+	
 	~Map();
 
 private:
@@ -97,7 +94,6 @@ private:
 	Camera *mCamera;
 	LPD3DXSPRITE                    mSpriteHandler;
 	QuadTree                        *mQuadTree,*mQuadTree1;
-	//Sprite                          *mSpriteBricks, *mSpriteBrickGold;
 	Sprite	*mBackGround;
 	
 	

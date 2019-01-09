@@ -28,7 +28,7 @@ public:
 
 	QuadTree **GetNodes();
 
-	int mLevel; //tuong ung voi so node
+	int mLevel; //do sau cua node
 	long long int mId;
 	std::vector<Entity*> getmListEntity();
 	QuadTree **Nodes;

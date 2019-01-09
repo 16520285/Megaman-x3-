@@ -6,7 +6,6 @@ Map::Map(char* filePath,Player *mPlayer)
 {
 	this->mPlayer = mPlayer;
 	LoadMap(filePath);
-	
 }
 
 Map::~Map()
@@ -24,6 +23,7 @@ Map::~Map()
 
 void Map::LoadMap(char* filePath)
 {
+	//LOAD BACKGROUND
 	mBackGround = new Sprite("Resources/background.png");
 	mBackGround->SetScale(D3DXVECTOR2(5,5));
 	mBackGround->SetPosition(0,0);
@@ -38,6 +38,7 @@ void Map::LoadMap(char* filePath)
 
 	//mQuadTree = new QuadTree(1,1, r); //khoi tao quadtree
 
+	//Load tileset
 	for (size_t i = 0; i < mMap->GetNumTilesets(); i++)
 	{
 		const Tmx::Tileset *tileset = mMap->GetTileset(i);
@@ -78,6 +79,9 @@ void Map::LoadMap(char* filePath)
 		}
 	}
 #pragma endregion
+
+#pragma region LOAD ENEMIES
+
 	for (size_t i = 0; i < mMap->GetNumObjectGroups(); i++)
 	{
 
@@ -182,12 +186,12 @@ void Map::LoadMap(char* filePath)
 		
 
 	}
+
+#pragma endregion
+
+	//Gan key cho door
 	mListDoor[1]->key = false;
 	mListDoor[3]->key = false;
-
-	
-	//GAMELOG("ene: %d", mListEnemy1);
-	
 
 	//ELEVATOR
 	elevator = new Elevator();
@@ -215,7 +219,7 @@ void Map::LoadMap(char* filePath)
 		mListSpecialBullet.push_back(specialBullet);
 	}
 	times = 10;
-	createQuadTree();
+	createQuadTree(); //Khoi tao quadtree tu file da luu
 
 }
 
@@ -226,7 +230,7 @@ void Map::Draw()
 	D3DXVECTOR2 trans = D3DXVECTOR2(GameGlobal::GetWidth() / 2 - mCamera->GetPosition().x,
 		GameGlobal::GetHeight() / 2 - mCamera->GetPosition().y);
 	mBackGround->Draw(mBackGround->GetPosition(), RECT(), D3DXVECTOR2(), trans);
-	//background->Draw(D3DXVECTOR3(), RECT(), D3DXVECTOR2(), trans);*/
+	
 #pragma region DRAW TILESET
 
 	for (size_t i = 0; i < mMap->GetNumTileLayers(); i++)
@@ -358,7 +362,6 @@ void Map::Draw()
 	}
 #pragma endregion
 
-	
 #pragma region DRAW GAME SPECIAL OBJECTS
 	elevator->Draw(elevator->GetPosition(), RECT(), D3DXVECTOR2(), trans);
 
@@ -411,8 +414,7 @@ void Map::Update(float dt)
 			}
 		
 	}
-
-
+	
 	for (size_t i = 0; i < mListEnemy2.size(); i++)
 	{
 		
@@ -441,6 +443,7 @@ void Map::Update(float dt)
 		
 
 	}
+
 	for (size_t i = 0; i < mListEnemy3.size(); i++)
 	{
 		if (inCamera(mListEnemy3[i]->GetPosition().x, mListEnemy3[i]->GetPosition().y))
@@ -469,14 +472,15 @@ void Map::Update(float dt)
 #pragma endregion
 
 #pragma region UPDATE GAME SPECIAL OBJECT
-	if (inCamera(elevator->GetPosition().x, elevator->GetPosition().y)) elevator->Update(dt);
+	if (inCamera(elevator->GetPosition().x, elevator->GetPosition().y)) elevator->Update(dt); //ELEVATOR
 
-	for (size_t i = 0; i < mListDoor.size(); i++)
+	for (size_t i = 0; i < mListDoor.size(); i++) //DOOR
 	{
 		if (mListDoor[i]->GetPosition().x < (mPlayer->GetPosition().x)) mListDoor[i]->locked = true;
 		if (inCamera(mListDoor[i]->GetPosition().x, mListDoor[i]->GetPosition().y)) mListDoor[i]->Update(dt);
 	}
-	for (size_t i = 0; i < mListBrick2.size(); i++)
+
+	for (size_t i = 0; i < mListBrick2.size(); i++) //BRICK2
 	{
 		if (mListBrick2[i])
 		if (inCamera(mListBrick2[i]->GetPosition().x, mListBrick2[i]->GetPosition().y))	mListBrick2[i]->Update(dt);
@@ -485,11 +489,13 @@ void Map::Update(float dt)
 			mListBrick2.erase(mListBrick2.begin() + i);
 		}
 	}
+
 	if (ship)
 	{
 		if (inCamera(ship->GetPosition().x, ship->GetPosition().y+200)) ship->Update(dt);
 		if (ship->isDeleted) ship = NULL;
 	}
+
 	if (ship)
 		if (plane)
 		{
@@ -522,7 +528,7 @@ void Map::Update(float dt)
 #pragma region UPDATE BOSS
 	
 		
-		if (mBoss3) {
+	if (mBoss3) {
 			//if (inCamera(mBoss3->GetPosition().x-100, mBoss3->GetPosition().y))
 			if (mPlayer->GetPosition().x>19050)
 			{
@@ -533,6 +539,7 @@ void Map::Update(float dt)
 					mBoss3 = NULL;
 			}
 			
+			//XU LY GIA TOC CHO BEE
 			speedBeeY = 30;
 			if (mBoss3->mListBee.size() != 0)
 			for (size_t i = 0; i < mBoss3->mListBee.size(); i++)
@@ -549,15 +556,17 @@ void Map::Update(float dt)
 						mBoss3->mListBee[i]->SetVx(0);
 						mBoss3->mListBee[i]->SetVy(0);
 					}
+
+					//BEE DUOI THEO PLAYER
 					if (mListSpecialBullet[times])
 						if (mListSpecialBullet[times]->isFollowing) {
-							GAMELOG("a:%d", times);
 							mBoss3->mListBee[i]->SetVx(mPlayer->GetPosition().x - mBoss3->mListBee[i]->GetPosition().x);
 							mBoss3->mListBee[i]->SetVy(mPlayer->GetPosition().y - mBoss3->mListBee[i]->GetPosition().y);
 						}
+
 					mBoss3->mListBee[i]->Update(dt);
 					
-					
+					//XOA BEE NEU BEE CHET
 					if (mBoss3->mListBee[i]->isDeleted) {
 						mBoss3->mListBee[i] = NULL;
 						mBoss3->mListBee.erase(mBoss3->mListBee.begin() + i);
@@ -565,7 +574,7 @@ void Map::Update(float dt)
 			}
 
 			//SPECIAL BULLET
-			if (mBoss3->mCurrentState==2 && mBoss3->HP<20)
+			if (mBoss3->mCurrentState==2 && mBoss3->HP<25)
 			{
 				mListSpecialBullet[times]->SetPosition(mBoss3->GetPosition());
 				mListSpecialBullet[times]->isBegin = true;
@@ -590,6 +599,7 @@ void Map::Update(float dt)
 
 			
 		}
+
 	if (mBoss1) {
 		if (inCamera(mBoss1->GetPosition().x-100, mBoss1->GetPosition().y)) mBoss1->Update(dt);
 		if (mBoss1->isDeleted) {
@@ -597,6 +607,7 @@ void Map::Update(float dt)
 			mBoss1 = NULL;
 		}
 	}
+
 	if (mBoss2) {
 		if (inCamera(mBoss2->GetPosition().x, mBoss2->GetPosition().y)) mBoss2->Update(dt);
 		for (size_t i=0; i < mBoss2->mListBoss2Bullet.size(); i++)
@@ -607,6 +618,8 @@ void Map::Update(float dt)
 				mBoss2->mListBoss2Bullet.erase(mBoss2->mListBoss2Bullet.begin() + i);
 			}
 		}
+
+		//XOA BOSS 2
 		if (mPlayer->GetPosition().x > 14658) mBoss2->isDeleted = true;
 		if (mBoss2->isDeleted) {
 			mListDoor[3]->key = true;
@@ -625,6 +638,7 @@ void Map::createQuadTree()
 {
 	this->outfile.open("quadtree.txt");
 	int cId, cLevel, cNumberOfEntity, j, cNumberOfNodes,dem,temp; RECT cBound;
+
 	while (!outfile.eof())
 	{
 		//GAMELOG("quad1: %d", temp); 
@@ -635,6 +649,7 @@ void Map::createQuadTree()
 		outfile >> cBound.right;
 		outfile >> cBound.bottom;
 		//GAMELOG("id: %d", cId);
+
 		mapQuadtree[cId] = new QuadTree(cId, cLevel, cBound);
 		outfile >> cNumberOfEntity;
 		for (int i = 0; i < cNumberOfEntity; i++)
@@ -651,11 +666,11 @@ void Map::createQuadTree()
 	
 	this->outfile.close();
 	
-		
+	//Link cac nodes voi nhau	
 	std::map<int, QuadTree*>::iterator it;
 	for (it = mapQuadtree.begin(); it!=mapQuadtree.end(); it++)
 	{
-		if (it->first == 1) mQuadTree = it->second;
+		if (it->first == 1) mQuadTree = it->second; //Node goc
 		else
 		{
 			int p = it->first / 10;
@@ -663,7 +678,6 @@ void Map::createQuadTree()
 			if (mapQuadtree[p] != NULL)
 			{
 				QuadTree *pQuadTree = mapQuadtree[p];
-				//if  (pQuadTree->Nodes==NULL) pQuadTree->Nodes= new QuadTree *[4];
 				if (pQuadTree->Nodes == NULL)   pQuadTree->Nodes = new QuadTree *[4];
 				switch (child)
 				{
@@ -685,17 +699,6 @@ void Map::createQuadTree()
 			}
 		}
 	}
-	//GAMELOG("quad %d:", mQuadTree1);
-	/*this->outfile1.open("quadtree1.txt");
-	
-	//outfile1 << mapQuadtree[1]->mId << mapQuadtree[1]->Bound.left;
-	//saveQuadTree(mQuadTree1);
-	outfile1 << mapQuadtree[1]->mId << " " << mapQuadtree[1]->mLevel << " " << mapQuadtree[1]->Bound.left << " " << mapQuadtree[1]->Bound.top << " " << mapQuadtree[1]->Bound.right << " " << mapQuadtree[1]->Bound.bottom << " " <<mapQuadtree[1]->getmListEntity().size()  <<std::endl;
-	outfile1 << mapQuadtree[12]->mId << " " << mapQuadtree[12]->mLevel << " " << mapQuadtree[12]->Bound.left << " " << mapQuadtree[12]->Bound.top << " " << mapQuadtree[12]->Bound.right << " " << mapQuadtree[12]->Bound.bottom << " " << mapQuadtree[12]->getmListEntity().size()<< std::endl;
-	outfile1.close();
-	*/
-	
-	
 }
 
 bool Map::inCamera(int a,int b)
@@ -707,11 +710,7 @@ bool Map::inCamera(int a,int b)
 }
 
 
-
-
-
-
-
+#pragma region CAC HAM GET SET
 Tmx::Map* Map::GetMap()
 {
 	return mMap;
@@ -735,19 +734,6 @@ int Map::GetTileHeight()
 {
 	return mMap->GetTileHeight();
 }
-
-
-
-/*int Map::GetWidth()
-{
-	return mMap->GetWidth();
-}
-
-int Map::GetHeight()
-{
-	return mMap->GetHeight();
-}
-*/
 
 void Map::SetCamera(Camera * camera)
 {
@@ -792,3 +778,5 @@ bool Map::IsBoundBottom()
 {
 	return (mCamera->GetBound().bottom == this->GetHeight());
 }
+
+#pragma endregion

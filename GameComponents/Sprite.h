@@ -60,7 +60,7 @@ protected:
 
     D3DXVECTOR3             mPosition; // vi tri cua Sprite, co goc la chinh giua hinh anh Texture
     LPDIRECT3DTEXTURE9      mTexture; // load hinh anh vao day
-    LPD3DXSPRITE            mSpriteHandler; //SpriteHandler ho tro ve hinh
+    LPD3DXSPRITE            mSpriteHandler; //SpriteHandler ho tro ve hinh ( lay device va ve len man hinh)
     D3DXIMAGE_INFO          mImageInfo; // thong tin thuc cua hinh anh duoc lay
     RECT                    mSourceRect; // hinh chu nhat cat tu anh cua texture
     

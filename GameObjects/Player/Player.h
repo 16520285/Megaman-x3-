@@ -39,7 +39,6 @@ public:
 
     PlayerState::StateName Player::getState();
 
- 
     void HandleKeyboard(std::map<int, bool> keys);
 
     void OnKeyPressed(int key);

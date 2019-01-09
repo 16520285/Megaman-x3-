@@ -45,9 +45,9 @@ Player::~Player()
 void Player::Update(float dt)
 {   
 	FindFollowAnimation();
-	
-    CurrentAnimation->Update(dt);
+	CurrentAnimation->Update(dt);
 	if (FollowAnimation)  FollowAnimation->Update(dt);
+
     if (this->mPlayerData->state)
     {
         this->mPlayerData->state->Update(dt);
@@ -55,6 +55,7 @@ void Player::Update(float dt)
 
     Entity::Update(dt);
 
+	//XU LY TRANG THAI CHARGING
 	if (charging)
 	{
 		count++;
@@ -75,7 +76,7 @@ void Player::Update(float dt)
 	if (charged1 != NULL) 	charged1->Update(dt);
 	if (charged2 != NULL) charged2->Update(dt);
 		
-	
+	//XOA BULLET
 	for (int i = 0; i < mListPlayerBullet.size(); i++)
 	{
 		
@@ -86,6 +87,7 @@ void Player::Update(float dt)
 		}
 	}
 	
+	//XU LY TRANG THAI BAT TU
 	if (nobody)
 	{
 		clock++;
@@ -163,8 +165,8 @@ void Player::OnKeyPressed(int key)
 
 void Player::OnKeyUp(int key)
 {
-    if (key == VK_SPACE)
-        allowJump = true;
+    if (key == VK_SPACE) allowJump = true;
+
 	if (key == 0x58)
 	{
 		Sound::getInstance()->play("PlayerShooting", false, 1);
@@ -177,11 +179,7 @@ void Player::OnKeyUp(int key)
 		//if (key == 0x58) GAMELOG("2222");
 
 	}
-	/*if (key == 0x59)
-		allowJumpingShot = true;*/
 
-	
-	
 }
 
 void Player::SetReverse(bool flag)
@@ -192,11 +190,11 @@ void Player::SetReverse(bool flag)
 void Player::Draw(D3DXVECTOR3 position, RECT sourceRect, D3DXVECTOR2 scale, D3DXVECTOR2 transform, float angle, D3DXVECTOR2 rotationCenter, D3DXCOLOR colorKey)
 {
     CurrentAnimation->FlipVertical(mCurrentReverse);
-    //CurrentAnimation->SetPosition(this->GetPosition());
+    
 	CurrentAnimation->SetPosition(D3DXVECTOR3(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight() / 2, 0));
-
-//    CurrentAnimation->Draw(D3DXVECTOR3(posX, posY, 0));
+	
 	CurrentAnimation->Draw(D3DXVECTOR3(GameGlobal::GetWidth()/ 2, GameGlobal::GetHeight()/ 2, 0));
+	
 	if (charged1) {
 		charged1->Draw(D3DXVECTOR3(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight() / 2, 0));
 	}
@@ -305,6 +303,7 @@ PlayerState::StateName Player::getState()
 {
     return mCurrentState;
 }
+
 void Player::OnNoCollisionWithBottom()
 {
 	if (mCurrentState != PlayerState::Jumping && mCurrentState != PlayerState::Falling)
@@ -312,10 +311,12 @@ void Player::OnNoCollisionWithBottom()
 		this->SetState(new PlayerFallingState(this->mPlayerData));
 	}
 }
+
 void Player::OnCollision(Entity *impactor, Entity::CollisionReturn data, Entity::SideCollisions side)
 {
 	this->mPlayerData->state->OnCollision(impactor, side, data);
 }
+
 void Player::FindFollowAnimation()
 {
 	if (CurrentAnimation == playerRunning) FollowAnimation = playerRunningShot;
@@ -323,6 +324,7 @@ void Player::FindFollowAnimation()
 	if (CurrentAnimation == playerJumping) FollowAnimation = playerJumpingShot;
 	if (CurrentAnimation == playerJumpingShot) FollowAnimation = playerJumping;
 }
+
 void Player::OnCollisionWithEnemy()
 {
 	  this->SetState(new PlayerHurtingState(this->mPlayerData));

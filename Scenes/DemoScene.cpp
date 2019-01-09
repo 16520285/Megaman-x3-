@@ -25,18 +25,26 @@ void DemoScene::LoadContent()
     mBackColor = 0x54acd2; 
 	
     mPlayer = new Player();
+<<<<<<< HEAD
+
+	
+	mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
+	//mPlayer->SetPosition(17609.3,4080); //boss 3
+=======
 	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()/2);
-	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
-	mPlayer->SetPosition(17409.3,4080); //boss 3
+mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
+	//mPlayer->SetPosition(17409.3,4080); //boss 3
+>>>>>>> 4c2432c8e89fe92a3f0f0d12e69736a602d3e451
 	//mPlayer->SetPosition(5504,2294.67); //boss 1
-	//mPlayer->SetPosition(12417.3,2254.67); //boss2
-	//mPlayer->SetPosition(12618.7, 1824);
+	//mPlayer->SetPosition(10417.3,2254.67); //shipment
+	//mPlayer->SetPosition(13417.3,2254.67); //boss2
+
+	
 
 	map = new Map("Resources/map1.tmx", mPlayer);
 	camera = new Camera(GameGlobal::GetWidth(), GameGlobal::GetHeight());
 	camera->SetPosition(GameGlobal::GetWidth()/2, GameGlobal::GetHeight()/2);
 	map->SetCamera(camera);
-
 	hpTaskBar = new HpTaskBar();
 	bossHP1 = new BossHP();
 	bossHP2 = new BossHP();
@@ -51,6 +59,7 @@ void DemoScene::Update(float dt)
 	map->Update(dt);
 
 	mPlayer->HandleKeyboard(keys);
+
 	mPlayer->Update(dt);
 
 	camera->SetPosition(mPlayer->GetPosition());
@@ -630,8 +639,7 @@ void DemoScene::saveQuadTree(QuadTree *quadtree)
 		outfile << mList.at(i)->id << " ";
 		
 	}
-	/*if (quadtree->GetNodes()) outfile << "4 ";
-	else outfile << "0 ";*/
+	
 	outfile << endl;
 	
 	if (quadtree->GetNodes())
