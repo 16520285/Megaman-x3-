@@ -12,7 +12,7 @@ Boss2::Boss2() {
 	
 	Boss2Shooting = new Animation("Resources/Boss2/Boss2Shooting.png", 3, 1, 3, 0.2f);
 	//Boss2Shooting->SetScale(D3DXVECTOR2(2, 2));
-	Boss2Die = new Animation("Resources/Enemy1/DieState.png", 7, 1, 7, 0.1f);
+	Boss2Die =new Animation("Resources/Effect/BigExplosion.png", 8, 1, 8, 0.05f);
 	Boss2Attack = new Animation("Resources/Boss2/Boss2Attack.png", 1, 1, 1, 0.0f);
 	//Boss2Attack->SetScale(D3DXVECTOR2(2, 2));
 	this->mBoss2Data = new Boss2Data();

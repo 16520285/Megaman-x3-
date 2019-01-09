@@ -25,11 +25,19 @@ void DemoScene::LoadContent()
     mBackColor = 0x54acd2; 
 	
     mPlayer = new Player();
+
+
+	
 	mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
 	//mPlayer->SetPosition(17609.3,4080); //boss 3
+
+	//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()/2);
+//mPlayer->SetPosition(GameGlobal::GetWidth() / 2, GameGlobal::GetHeight()+700);
+	//mPlayer->SetPosition(17409.3,4080); //boss 3
+
 	//mPlayer->SetPosition(5504,2294.67); //boss 1
 	//mPlayer->SetPosition(10417.3,2254.67); //shipment
-	//mPlayer->SetPosition(13417.3,2254.67); //boss2
+	mPlayer->SetPosition(13417.3,2254.67); //boss2
 
 	
 
@@ -418,12 +426,11 @@ void DemoScene::checkCollision()
 		map->elevator->GetBound());
 	if (r.IsCollided)
 	{
-		map->elevator->SetVy(-100);
+		map->elevator->SetVy(-80);
 		Entity::SideCollisions sidePlayer = GameCollision::getSideCollision(mPlayer, r);
 		mPlayer->OnCollision(map->elevator, r, sidePlayer);
 		
 	}
-	
 #pragma endregion	
 
 #pragma region XU LY VA CHAM CUA DOOR
